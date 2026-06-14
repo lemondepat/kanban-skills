@@ -1,0 +1,41 @@
+{
+  "name": "kanban-skills",
+  "version": "0.1.0",
+  "description": "A lightweight Kanban skill set for Claude Code — a tiny Jira for 1–2 people where AI agents pick up and ship cards. Zero infra: one HTML board + one JSON file + four skills.",
+  "type": "module",
+  "bin": {
+    "kanban-skills": "bin/cli.mjs"
+  },
+  "files": [
+    "skills",
+    "bin",
+    ".claude-plugin",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "claude-skills",
+    "claude-plugin",
+    "kanban",
+    "agent",
+    "ai-agent",
+    "task-management",
+    "jira-alternative",
+    "skills"
+  ],
+  "license": "MIT",
+  "author": "lemondepat",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lemondepat/kanban-skills.git"
+  },
+  "homepage": "https://github.com/lemondepat/kanban-skills#readme",
+  "bugs": {
+    "url": "https://github.com/lemondepat/kanban-skills/issues"
+  }
+}

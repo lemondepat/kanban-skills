@@ -1,0 +1,28 @@
+{
+  "name": "kanban-skills",
+  "owner": {
+    "name": "lemondepat",
+    "url": "https://github.com/lemondepat"
+  },
+  "metadata": {
+    "description": "Lightweight Kanban skills for Claude Code — a tiny Jira for 1–2 people, agent-driven.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "kanban-skills",
+      "source": "./",
+      "description": "Init, brainstorm, implement, and update a zero-infra Kanban board (one HTML + one JSON) where AI agents pick up and ship cards.",
+      "version": "0.1.0",
+      "author": {
+        "name": "lemondepat"
+      },
+      "keywords": [
+        "kanban",
+        "task-management",
+        "agent",
+        "jira-alternative"
+      ]
+    }
+  ]
+}
