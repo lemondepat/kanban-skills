@@ -46,7 +46,11 @@ The overview is best presented as a table: one row per ticket, columns = `sectio
 
 ### 4. Execute (smart grouping: parallelize non-conflicting, serialize conflicting)
 
-After the user confirms the overall plan, execute fully autonomously, scheduling by file-conflict grouping:
+After the user confirms the overall plan, execute fully autonomously, scheduling by file-conflict grouping.
+
+> **On Claude Code:** drive this execution step with `/goal` to force it to run autonomously through to completion — don't stop to ask for confirmation mid-build (the plan was already confirmed in step 3). On other agents this aside doesn't apply; just proceed with the steps below.
+
+Scheduling:
 
 1. Take the "set of files expected to be touched" annotated for each ticket in step 3.
 2. Tickets whose file sets **do not intersect** go into the same parallel batch; those that **do intersect** are split into different batches and serialized.
