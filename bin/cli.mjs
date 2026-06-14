@@ -11,7 +11,7 @@ import { listSkills, installAgent, AGENT_NAMES } from "./agents.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SKILLS_SRC = resolve(__dirname, "..", "skills");
-const VERSION = "0.1.1";
+const VERSION = "0.1.2";
 
 const TARGETABLE = ["claude", "codex", "opencode", "gemini", "generic"];
 

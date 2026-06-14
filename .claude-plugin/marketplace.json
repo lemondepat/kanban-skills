@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Lightweight Kanban skills for Claude Code — a tiny Jira for 1–2 people, agent-driven.",
-    "version": "0.1.1"
+    "version": "0.1.2"
   },
   "plugins": [
     {
       "name": "kanban-skills",
       "source": "./",
       "description": "Init, brainstorm, implement, and update a zero-infra Kanban board (one HTML + one JSON) where AI agents pick up and ship cards.",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "author": {
         "name": "lemondepat"
       },

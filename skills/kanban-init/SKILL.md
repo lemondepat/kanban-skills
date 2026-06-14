@@ -20,23 +20,26 @@ Check whether `kanban.html` and `kanban.json` already exist in the project root.
 
 ### 2. Infer the project identity (to fill template placeholders)
 
-The template has two placeholders to replace, so multiple projects don't share one browser IndexedDB handle and the tab title stays readable:
+The template has three placeholders to replace, so multiple projects don't share one browser IndexedDB handle and the title/header stay readable:
 
 - `__KANBAN_DB__` → IndexedDB database name, use `<project-slug>-kanban-v1`. The project slug is the project root directory name (lowercased, spaces/underscores → hyphens).
 - `__KANBAN_TITLE__` → browser tab title, use `<project name> Kanban` (fall back to `Kanban` if no good name is available).
+- `__KANBAN_HEADER__` → the visible top-left header on the board, use `<project name>'s kanban` (fall back to `Kanban`). Use the readable directory name (not the slug) for `<project name>`.
 
 ### 3. Generate kanban.html
 
-Read `references/kanban.template.html`, replace the two placeholders with the values from step 2, and write to `kanban.html` in the project root.
+Read `references/kanban.template.html`, replace the three placeholders with the values from step 2, and write to `kanban.html` in the project root.
 
 Example replacement (you can also read the template string, replace, and persist with Write):
 
 ```bash
 # TPL = path to the bundled template (see "Assets" note below)
 TPL="references/kanban.template.html"
-SLUG="$(basename "$PWD" | tr '[:upper:] ' '[:lower:]-' | tr '_' '-')"
+NAME="$(basename "$PWD")"                                   # readable project name
+SLUG="$(echo "$NAME" | tr '[:upper:] ' '[:lower:]-' | tr '_' '-')"
 sed -e "s/__KANBAN_DB__/${SLUG}-kanban-v1/" \
-    -e "s/__KANBAN_TITLE__/${SLUG} Kanban/" \
+    -e "s/__KANBAN_TITLE__/${NAME} Kanban/" \
+    -e "s/__KANBAN_HEADER__/${NAME}'s kanban/" \
     "$TPL" > kanban.html
 ```
 
