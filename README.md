@@ -54,6 +54,8 @@ npx kanban-skills --agent all           # every supported agent
 npx kanban-skills --user                # install at user level where supported
 ```
 
+If you don't pass `--project` or `--user`, the installer **asks** whether to install into this project (`.claude/skills/` etc., committable per-repo) or at user level (`~/.claude/skills/`, all your projects). Pass the flag to skip the prompt (e.g. in CI).
+
 Where each agent gets its commands:
 
 | Agent | Installed to | Invoke |

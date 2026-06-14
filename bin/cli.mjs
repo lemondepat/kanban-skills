@@ -6,19 +6,21 @@
 
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
+import { createInterface } from "node:readline";
 import { listSkills, installAgent, AGENT_NAMES } from "./agents.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SKILLS_SRC = resolve(__dirname, "..", "skills");
-const VERSION = "0.1.0";
+const VERSION = "0.1.1";
 
 const TARGETABLE = ["claude", "codex", "opencode", "gemini", "generic"];
 
 function parseArgs(argv) {
-  const opts = { user: false, help: false, list: false, version: false, agents: [] };
+  const opts = { user: false, project: false, help: false, list: false, version: false, agents: [] };
   const positional = [];
   for (const a of argv) {
     if (a === "--user" || a === "-u" || a === "--global" || a === "-g") opts.user = true;
+    else if (a === "--project" || a === "-p" || a === "--local") opts.project = true;
     else if (a === "--help" || a === "-h") opts.help = true;
     else if (a === "--list" || a === "-l") opts.list = true;
     else if (a === "--version" || a === "-v" || a === "-V") opts.version = true;
@@ -39,7 +41,28 @@ function parseArgs(argv) {
   if (opts.agents.includes("all")) opts.agents = [...TARGETABLE];
   opts.agents = [...new Set(opts.agents.filter((a) => TARGETABLE.includes(a)))];
   if (opts.agents.length === 0) opts.agents = ["claude"]; // default
+  opts.scopeExplicit = opts.user || opts.project;
   return opts;
+}
+
+function ask(question) {
+  return new Promise((res) => {
+    const rl = createInterface({ input: process.stdin, output: process.stdout });
+    rl.question(question, (a) => { rl.close(); res(a); });
+  });
+}
+
+// Resolve install scope: explicit flag wins; else ask interactively on a TTY; else default project.
+async function resolveScope(opts) {
+  if (opts.scopeExplicit) return opts.user ? "user" : "project";
+  if (!process.stdin.isTTY) return "project";
+  const ans = (await ask(
+    "\nWhere should the skills be installed?\n" +
+    "  1) This project   — .claude/skills/ etc. (committable, per-repo)\n" +
+    "  2) User level     — ~/.claude/skills/ etc. (all your projects)\n" +
+    "Choose [1]: "
+  )).trim().toLowerCase();
+  return ans === "2" || ans === "user" || ans === "u" ? "user" : "project";
 }
 
 const HELP = `
@@ -58,10 +81,14 @@ Agents (one source, emitted per agent):
 
 Options:
   --agent <a,b>  Target agent(s), comma-separated (default: claude)
+  --project, -p  Install into this project (.* dirs in the repo)
   --user, -g     Install at user level where supported (~/.* instead of project)
   --list, -l     List bundled skills and exit
   --version, -v  Print version
   --help, -h     Show this help
+
+If neither --project nor --user is given, you'll be asked interactively
+(defaults to project level when not running in a terminal).
 
 Examples:
   npx kanban-skills                       # Claude Code, this project
@@ -71,7 +98,7 @@ Examples:
   npx kanban-skills --user                # Claude Code, all your projects
 `;
 
-function main() {
+async function main() {
   const opts = parseArgs(process.argv.slice(2));
 
   if (opts.version) return void console.log(VERSION);
@@ -85,7 +112,7 @@ function main() {
     return;
   }
 
-  const scope = opts.user ? "user" : "project";
+  const scope = await resolveScope(opts);
   console.log("");
   for (const agent of opts.agents) {
     const res = installAgent(agent, { skillsSrc: SKILLS_SRC, skills, scope });
@@ -102,4 +129,7 @@ function main() {
   console.log("  Commands are picked up live by most agents (Codex: restart; Gemini: /commands reload).");
 }
 
-main();
+main().catch((err) => {
+  console.error("kanban-skills: " + (err && err.message ? err.message : err));
+  process.exit(1);
+});

@@ -52,6 +52,8 @@ npx kanban-skills --agent all           # 全部支持的 agent
 npx kanban-skills --user                # 支持的地方装到用户级
 ```
 
+如果不传 `--project` 或 `--user`，安装器会**交互询问**装到当前项目（`.claude/skills/` 等，可随仓库提交）还是用户级（`~/.claude/skills/`，对所有项目生效）。传 flag 即可跳过询问（如 CI 场景）。
+
 各 agent 命令装到哪里：
 
 | Agent | 安装位置 | 调用 |
