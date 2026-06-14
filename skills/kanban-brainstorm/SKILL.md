@@ -45,7 +45,7 @@ Enter only when Step 2 judges it vague. Ask one question at a time (multiple-cho
 - Priority cues: urgent or not, core or exploratory.
 - Which section it belongs to (against the `categories` from Step 1).
 
-Stop once you've asked enough, don't over-probe. For a **genuinely complex goal that needs architecture / solution design**, you can invoke `superpowers:brainstorming` for a round of in-depth design, then turn its output into cards — but routine card-splitting doesn't need it.
+Stop once you've asked enough, don't over-probe. For a **genuinely complex goal that needs architecture / solution design**, you can invoke a dedicated interactive brainstorming skill if your harness has one (on Claude Code: `superpowers:brainstorming`) for a round of in-depth design, then turn its output into cards — but routine card-splitting doesn't need it.
 
 ### 4. Draft cards
 

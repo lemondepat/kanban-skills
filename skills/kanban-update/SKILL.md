@@ -62,9 +62,9 @@ Get the operator's name via `git config user.name` and write it as `doneBy`. If 
 
 ### 6. Interactively confirm Tier A tickets
 
-If the number of Tier A tickets > 0, use the `AskUserQuestion` tool for multi-select confirmation.
+If the number of Tier A tickets > 0, confirm with the user via a multiple-choice prompt (on Claude Code: the `AskUserQuestion` tool with multi-select; on other agents, present a numbered list and let them pick several).
 
-`AskUserQuestion` displays at most 4 options at a time. If there are more than 4 Tier A tickets, **ask in batches**, at most 4 per batch, and label each batch with the current progress (e.g. "Batch 1 of 3").
+If your prompt UI caps the number of options (on Claude Code, `AskUserQuestion` shows at most 4), **ask in batches** within that cap, and label each batch with the current progress (e.g. "Batch 1 of 3").
 
 Each option's `label` format: `[section] title (truncated to 30 chars)`
 
@@ -74,7 +74,7 @@ Each option's `label` format: `[section] title (truncated to 30 chars)`
 
 ### 7. Interactively confirm Tier B tickets
 
-If the number of Tier B tickets > 0, likewise confirm via `AskUserQuestion` multi-select in batches, with the question text:
+If the number of Tier B tickets > 0, likewise confirm via a multi-select prompt in batches, with the question text:
 `The following are possibly implemented — which do you confirm as done? (leave unsure ones unselected)`
 
 ### 8. Write back to kanban.json

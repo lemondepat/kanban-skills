@@ -23,12 +23,12 @@ The board is collaborative, so `litBy` may be someone else. The board username c
 3. Branch by distinct `litBy`:
    - **0 people** → stop and prompt: "There are no lit (working) cards on the board. Go to /kanban and light up the cards you want to work on first, then come back."
    - **Only 1 person** → assume that's the user. List all the cards they've lit up and confirm with a single sentence: "Working on these, right?"
-   - **Multiple people** → use `AskUserQuestion` to ask "On the board, <list of names> each lit up cards. Whose do you want to work on?" and take only the selected person's cards.
+   - **Multiple people** → ask the user a multiple-choice question (on Claude Code: the `AskUserQuestion` tool; on other agents, present a numbered list and wait for their pick): "On the board, <list of names> each lit up cards. Whose do you want to work on?" and take only the selected person's cards.
 4. Lock in the "user's set" of working tickets (record each one's `section`/`title`/which array it's in) and proceed to step 2.
 
 ### 2. Detect equipment (available companion skills)
 
-List the companion skills that are **actually available** right now (e.g. `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:test-driven-development`, `frontend-design`, etc., based on what's actually visible in this session). Take the list of available skills directly from the available-skills section of this session's system-reminder; no external command enumeration is needed. **Do not hardcode a mapping table** — once listed, judge for yourself which ones to chain together based on the nature of each ticket.
+List the companion skills/tools that are **actually available** right now in your harness (on Claude Code, e.g. `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:test-driven-development`, `frontend-design`). Discover them however your harness exposes available skills/commands (on Claude Code: the available-skills section of the system-reminder); no external command enumeration is needed. **Do not hardcode a mapping table** — once listed, judge for yourself which ones to chain together based on the nature of each ticket.
 
 ### 3. Produce an overall plan (all at once, one user confirmation)
 
@@ -51,7 +51,7 @@ After the user confirms the overall plan, execute fully autonomously, scheduling
 1. Take the "set of files expected to be touched" annotated for each ticket in step 3.
 2. Tickets whose file sets **do not intersect** go into the same parallel batch; those that **do intersect** are split into different batches and serialized.
    - In practice: greedy batching — try to fit each ticket into an existing batch one by one; if its files intersect with any ticket already in that batch, start a new batch.
-3. Within the same parallel batch, write code for the tickets concurrently using parallel sub-agents (the `Agent` tool, one agent implementing one ticket); different batches are executed sequentially, batch by batch.
+3. Within the same parallel batch, if your harness supports parallel sub-agents (on Claude Code: the `Agent` tool, one agent per ticket; on OpenCode: a command with `subtask`), write the tickets concurrently; if it doesn't, implement them one at a time. Different batches are executed sequentially, batch by batch.
 4. Each implementation sub-agent's task description must include: the concrete change description for that ticket, the skill path to follow, and **permission to touch only the designated file set** (to prevent out-of-bounds edits that cause hidden conflicts).
 5. All changes land in the **main working tree** (do not use a git worktree).
 

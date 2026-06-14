@@ -1,7 +1,7 @@
 {
   "name": "kanban-skills",
   "version": "0.1.0",
-  "description": "A lightweight Kanban skill set for Claude Code — a tiny Jira for 1–2 people where AI agents pick up and ship cards. Zero infra: one HTML board + one JSON file + four skills.",
+  "description": "A lightweight, agent-agnostic Kanban skill set (Claude Code, Codex, OpenCode, Gemini, AGENTS.md) — a tiny Jira for 1–2 people where AI agents pick up and ship cards. Zero infra: one HTML board + one JSON file + four skills.",
   "type": "module",
   "bin": {
     "kanban-skills": "bin/cli.mjs"
@@ -11,6 +11,7 @@
     "bin",
     ".claude-plugin",
     "README.md",
+    "README.zh-CN.md",
     "LICENSE"
   ],
   "engines": {
@@ -21,6 +22,10 @@
     "claude-code",
     "claude-skills",
     "claude-plugin",
+    "codex",
+    "opencode",
+    "gemini-cli",
+    "agents-md",
     "kanban",
     "agent",
     "ai-agent",

@@ -32,13 +32,15 @@ Read `references/kanban.template.html`, replace the two placeholders with the va
 Example replacement (you can also read the template string, replace, and persist with Write):
 
 ```bash
+# TPL = path to the bundled template (see "Assets" note below)
+TPL="references/kanban.template.html"
 SLUG="$(basename "$PWD" | tr '[:upper:] ' '[:lower:]-' | tr '_' '-')"
 sed -e "s/__KANBAN_DB__/${SLUG}-kanban-v1/" \
     -e "s/__KANBAN_TITLE__/${SLUG} Kanban/" \
-    .claude/skills/kanban-init/references/kanban.template.html > kanban.html
+    "$TPL" > kanban.html
 ```
 
-> The `sed` path assumes the skill is installed at the project level (`.claude/skills/kanban-init/`), which is where `npx kanban-skills` installs it by default. If the skill lives elsewhere (e.g. user level `~/.claude/skills/kanban-init/`, or a plugin cache), change the template path accordingly.
+> **Assets note:** the bundled files `references/kanban.template.html`, `references/kanban.starter.json`, and `references/server-wiring.md` live in this skill/command's own install directory. Resolve the `references/` path relative to that directory (on Claude Code, the skill's own folder — not the project root). For non-Claude agents the npm installer rewrites these paths to the concrete assets directory automatically. If a path doesn't resolve, locate the bundled files and adjust.
 > After generating, confirm `kanban.html` no longer contains any `__KANBAN_` placeholder.
 
 ### 4. Generate kanban.json
